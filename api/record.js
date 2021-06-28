@@ -6,5 +6,5 @@ import {serviceUrl} from './api'
  * @see https://www.easyai.com
  */
  export const getCheckRecords = (params, context) => {
-    return context.$axios.get(`${serviceUrl}/console/invoiceCheckRecord`, {params: {...params}})
+    return context.$axios.get(`${serviceUrl}/console/checkInvoiceRecord`, {params: {...params}})
   };
