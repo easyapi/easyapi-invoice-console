@@ -17,25 +17,21 @@
         activePath: '',
         menuList: [
           {
-            title: '文章管理',
-            path: '/article',
+            title: '发票查验',
+            path: '/check',
             icon: 'el-icon-s-help'
           },
           {
-            title: '视频管理',
-            path: '/video',
+            title: '查验记录',
+            path: '/record',
             icon: 'el-icon-s-help'
           },
-          {
-            title: '文章分类',
-            path: '/category',
-            icon: 'el-icon-s-help'
-          }
+          
         ]
       }
     },
     mounted() {
-      this.activePath = this.$route.path ? `${this.$route.path}` : '/article'
+      this.activePath = this.$route.path ? `${this.$route.path}` : '/check'
     }
   }
 </script>
