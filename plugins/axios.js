@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie'
-
+import { Message } from "element-ui";
 export default function ({ $axios, redirect }) {
   $axios.onRequest((config) => {
     let token = Cookies.get('Authorization');
@@ -11,6 +11,7 @@ export default function ({ $axios, redirect }) {
   })
   $axios.onError((error) => {
     const code = parseInt(error.response && error.response.status)
+    console.log(code)
     if (code === 400) {
       if (error.response.data.code === -9) {
         window.location.href =
@@ -19,7 +20,7 @@ export default function ({ $axios, redirect }) {
         window.location.href =
           'https://team.easyapi.com/new?from=https://doc.easyapi.com'
       } else {
-        this.$message.warning(error.response.data.message)
+        Message.error(error.response.data.message)
       }
     }
   })
