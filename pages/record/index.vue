@@ -9,28 +9,12 @@
         </div>
         <el-divider></el-divider>
         <div class="main-content">
-          <el-form
-            size="small"
-            :inline="true"
-            :model="formInline"
-            label-width="90px"
-          >
-            <el-form-item label="查验日期：">
-              <el-date-picker
-                v-model="formInline.addTime"
-                type="datetimerange"
-                range-separator="至"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
-                value-format="yyyy-MM-dd HH:mm:ss"
-                :default-time="['00:00:00', '23:59:59']"
-              >
-              </el-date-picker>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary" @click="search()" size="mini">搜索</el-button>
-            </el-form-item>
-          </el-form>
+          <SearchArea
+            :items="searchItems"
+            @search="search"
+            @event="event"
+            @reset="reset"
+          />
           <el-table
             :data="checkRecords"
             :header-cell-style="{
@@ -95,6 +79,7 @@ import Aside from '../../components/Aside/index.vue'
 import Pagination from '../../components/Pagination/index'
 import { getCheckRecords } from '../../api/record'
 import DetailModal from './moudel/detailModal.vue'
+import SearchArea from '../../components/SearchArea/index.vue'
 
 export default {
   name: '',
@@ -103,12 +88,30 @@ export default {
     Aside,
     Pagination,
     DetailModal,
+    SearchArea,
   },
   data() {
     return {
       checkRecords: [],
+      searchItems: [
+        { label: '发票代码', type: 'input', key: 'code' },
+        { label: '发票号码', type: 'input', key: 'number' },
+        { label: '购买方名称', type: 'input', key: 'purchaserName' },
+        { label: '销售方名称', type: 'input', key: 'salesName' },
+        {
+          label: '开票日期',
+          type: 'datePicker',
+          key: 'makeDate',
+          pickerType: 'date',
+          format: 'yyyy-MM-dd',
+        },
+      ],
       formInline: {
-        addTime: [],
+        code: null,
+        number: null,
+        makeDate: null,
+        purchaserName: null,
+        salesName: null,
       },
       showHeader: '',
       pagination: {
@@ -147,10 +150,7 @@ export default {
         size: this.pagination.size,
         appKey: '53Z9oTH5KpIy2SC2',
         appSecret: 'tfmjloheqcricbic',
-      }
-      if(this.formInline.addTime != null && this.formInline.addTime.length > 0){
-        params.startTime = this.formInline.addTime[0]
-        params.endTime = this.formInline.addTime[1]
+        ...this.formInline,
       }
       getCheckRecords(params, this).then((res) => {
         if (res.data.code === 0) {
@@ -178,10 +178,25 @@ export default {
       this.pagination.page = data
       this.getCheckRecords()
     },
-    search(){
+    search(item) {
       this.pagination.page = 1
+      let { code, number, makeDate, purchaserName, salesName } = item
+      this.formInline.code = code
+      this.formInline.number = number
+      this.formInline.makeDate = makeDate
+      this.formInline.purchaserName = purchaserName
+      this.formInline.salesName = salesName
       this.getCheckRecords()
-    }
+    },
+    event(item) {
+      let { code, number, makeDate, purchaserName, salesName } = item
+      this.formInline.code = code
+      this.formInline.number = number
+      this.formInline.makeDate = makeDate
+      this.formInline.purchaserName = purchaserName
+      this.formInline.salesName = salesName
+    },
+    reset() {},
   },
   mounted() {
     this.getCheckRecords()

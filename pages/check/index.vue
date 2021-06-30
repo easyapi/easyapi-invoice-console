@@ -99,7 +99,7 @@
               </el-form>
             </div>
             <div class="invoice-check_right">
-              <div class="invoice-check_right_title">增值税电子发票</div>
+              <div class="invoice-check_right_title">{{ invoiceDetail.typeName || '增值税电子发票' }}</div>
               <!-- 头部 -->
               <div class="invoice-check-table_thead border-r border-l border-t">
                 <!-- 购买方 -->
