@@ -9,14 +9,28 @@
         </div>
         <el-divider></el-divider>
         <div class="main-content">
-          <div>
-            <SearchArea
-              :items="searchAreaItems"
-              @search="search"
-              @event="event"
-              @reset="reset"
-            />
-          </div>
+          <el-form
+            size="small"
+            :inline="true"
+            :model="formInline"
+            label-width="90px"
+          >
+            <el-form-item label="查验日期：">
+              <el-date-picker
+                v-model="formInline.addTime"
+                type="datetimerange"
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                value-format="yyyy-MM-dd HH:mm:ss"
+                :default-time="['00:00:00', '23:59:59']"
+              >
+              </el-date-picker>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="search()" size="mini">搜索</el-button>
+            </el-form-item>
+          </el-form>
           <el-table
             :data="checkRecords"
             :header-cell-style="{
@@ -24,6 +38,7 @@
               color: '#606266',
               fontSize: '12px',
             }"
+            style="margin-top: 20px"
             v-loading="loadingData"
             element-loading-text="数据正在加载中..."
           >
@@ -50,7 +65,7 @@
                 <el-button
                   type="primary"
                   @click="openDetail(scope.row)"
-                  size="small"
+                  size="mini"
                   >详情</el-button
                 >
               </template>
@@ -77,7 +92,6 @@
 <script>
 import Header from '../../components/Header/index.vue'
 import Aside from '../../components/Aside/index.vue'
-import SearchArea from '../../components/SearchArea/index.vue'
 import Pagination from '../../components/Pagination/index'
 import { getCheckRecords } from '../../api/record'
 import DetailModal from './moudel/detailModal.vue'
@@ -87,15 +101,15 @@ export default {
   components: {
     Header,
     Aside,
-    SearchArea,
     Pagination,
     DetailModal,
   },
   data() {
     return {
       checkRecords: [],
-      searchAreaItems: [{ label: '发票代码：', type: 'input', key: 'code' }],
-      code: '',
+      formInline: {
+        addTime: [],
+      },
       showHeader: '',
       pagination: {
         page: 1,
@@ -129,11 +143,14 @@ export default {
       this.loadingData = true
       let page = this.pagination.page - 1
       let params = {
-        code: this.code,
         page: page,
         size: this.pagination.size,
         appKey: '53Z9oTH5KpIy2SC2',
         appSecret: 'tfmjloheqcricbic',
+      }
+      if(this.formInline.addTime != null && this.formInline.addTime.length > 0){
+        params.startTime = this.formInline.addTime[0]
+        params.endTime = this.formInline.addTime[1]
       }
       getCheckRecords(params, this).then((res) => {
         if (res.data.code === 0) {
@@ -161,16 +178,10 @@ export default {
       this.pagination.page = data
       this.getCheckRecords()
     },
-    search(item) {
-      let { code } = item
-      this.code = code
+    search(){
+      this.pagination.page = 1
       this.getCheckRecords()
-    },
-    reset(item) {},
-    event(item) {
-      let { code } = item
-      this.code = code
-    },
+    }
   },
   mounted() {
     this.getCheckRecords()

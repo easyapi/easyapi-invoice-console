@@ -1,7 +1,7 @@
 /**
  * 获取七牛KEY
  */
-export const getQiniuKey = (context) => {
+export const getqnkey = (context) => {
   return context.$axios.get(`https://api.easyapi.com/qiniu/key`)
 }
 
@@ -9,6 +9,6 @@ export const getQiniuKey = (context) => {
 /**
  * 获取七牛空间TOKEN
  */
-export const getQiniuToken = (context) => {
+export const getqnToken = (context) => {
   return context.$axios.get(`https://api.easyapi.com/qiniu/upToken`)
 }

@@ -12,9 +12,28 @@
           <div class="invoice-check">
             <div class="invoice-check_left">
               <p>扫码查验</p>
-              <el-input v-model="input3" size="small">
-                <i slot="suffix" class="el-input__icon el-icon-date"></i>
+              <el-input
+                v-model="qrCode"
+                size="small"
+                @keyup.enter.native="checkInvoiceQrCode"
+              >
+                <i
+                  slot="suffix"
+                  class="el-input__icon iconfont icon-saomiaoqiang"
+                ></i>
               </el-input>
+              <p>图片查验</p>
+              <el-upload
+                @click.native="getTokenAandKey"
+                class="avatar-uploader"
+                action="https://upload.qiniup.com/"
+                :show-file-list="false"
+                :data="{ key: qnKey, token: qnToken }"
+                :on-success="handleAvatarSuccess"
+              >
+                <img v-if="imgUrl" :src="imgUrl" class="avatar" />
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+              </el-upload>
               <p>手工查验</p>
               <el-form
                 :model="ruleForm"
@@ -80,9 +99,7 @@
               </el-form>
             </div>
             <div class="invoice-check_right">
-              <div class="invoice-check_right_title">
-                增值税电子{{ invoiceType == 1 ? '专用' : '普通' }}发票
-              </div>
+              <div class="invoice-check_right_title">增值税电子发票</div>
               <!-- 头部 -->
               <div class="invoice-check-table_thead border-r border-l border-t">
                 <!-- 购买方 -->
@@ -107,13 +124,13 @@
                     </div>
                   </div>
                 </div>
-                <!-- 接受方 -->
+                <!-- 密码区 -->
                 <div class="invoice-check_table_receive">
-                  <div class="title border-r border-l">接收信息</div>
-                  <div class="info">
+                  <div class="title border-r border-l">密码区</div>
+                  <!-- <div class="info">
                     <div><span>联系电话：</span><i>1763166164</i></div>
                     <div><span>电子邮箱：</span><i>1537299563@qq.com</i></div>
-                  </div>
+                  </div> -->
                 </div>
               </div>
               <!-- 明细 -->
@@ -245,7 +262,12 @@
 <script>
 import Header from '../../components/Header/index.vue'
 import Aside from '../../components/Aside/index.vue'
-import { checkInvoice } from '../../api/check'
+import {
+  checkInvoiceCode,
+  checkInvoiceUrl,
+  checkInvoiceQrCode,
+} from '../../api/check'
+import { getqnkey, getqnToken } from '../../api/qiniu'
 export default {
   name: '',
   components: {
@@ -276,6 +298,10 @@ export default {
     }
     return {
       showHeader: '',
+      qnKey: null,
+      qnToken: null,
+      imgUrl: '',
+      qrCode: '',
       invoiceDetail: {
         items: [],
       },
@@ -333,6 +359,32 @@ export default {
     },
   },
   methods: {
+    getqnkey() {
+      getqnkey(this).then((res) => {
+        if (res.data.code === 1) {
+          this.qnKey = res.data.content.key
+        }
+      })
+    },
+    getqnToken() {
+      getqnToken(this).then((res) => {
+        if (res.data.code === 1) {
+          this.qnToken = res.data.content.upToken
+        }
+      })
+    },
+    //获取七牛key和token
+    getTokenAandKey() {
+      this.getqnkey()
+      this.getqnToken()
+    },
+    handleAvatarSuccess(res) {
+      this.$message.success('上传成功!')
+      this.imgUrl = 'https://qiniu.easyapi.com/' + res.key
+      //图片查验
+      this.checkInvoiceUrl()
+    },
+    //表格合计
     getSummaries(param) {
       const { columns, data } = param
       const sums = []
@@ -349,7 +401,7 @@ export default {
               if (!isNaN(value)) {
                 return (prev + curr).toFixed(2)
               } else {
-                return (prev).toFixed(2)
+                return prev.toFixed(2)
               }
             }, 0)
           }
@@ -357,6 +409,7 @@ export default {
       })
       return sums
     },
+    // 选择发票类型
     invoiceTypeChange() {
       this.ruleForm.code = ''
       this.ruleForm.number = ''
@@ -383,6 +436,51 @@ export default {
         .replace(/^元零?|零分/g, '')
         .replace(/元$/g, '元整')
     },
+    //图片查验
+    checkInvoiceUrl() {
+      let params = {
+        appKey: '53Z9oTH5KpIy2SC2',
+        appSecret: 'tfmjloheqcricbic',
+        url: this.imgUrl,
+      }
+      checkInvoiceUrl(params, this)
+        .then((res) => {
+          if (res.data.code === 1) {
+            this.invoiceDetail = res.data.content
+          } else {
+            this.invoiceDetail = {
+              items: [],
+            }
+          }
+        })
+        .catch((error) => {
+          this.invoiceDetail = {
+            items: [],
+          }
+        })
+    },
+    checkInvoiceQrCode() {
+      let params = {
+        appKey: '53Z9oTH5KpIy2SC2',
+        appSecret: 'tfmjloheqcricbic',
+        text: '01,04,032002100404,08370904,653.40,20210611,01312583033131800741,2030,',
+      }
+      checkInvoiceQrCode(params, this)
+        .then((res) => {
+          if (res.data.code === 1) {
+            this.invoiceDetail = res.data.content
+          } else {
+            this.invoiceDetail = {
+              items: [],
+            }
+          }
+        })
+        .catch((error) => {
+          this.invoiceDetail = {
+            items: [],
+          }
+        })
+    },
     // 查询
     search() {
       this.$refs.ruleForm.validate((valid) => {
@@ -393,11 +491,21 @@ export default {
             appSecret: 'tfmjloheqcricbic',
           }
           // 032002100404 08370904  3200202130 08108805
-          checkInvoice(params, this).then((res) => {
-            if (res.data.code === 1) {
-              this.invoiceDetail = res.data.content
-            }
-          })
+          checkInvoiceCode(params, this)
+            .then((res) => {
+              if (res.data.code === 1) {
+                this.invoiceDetail = res.data.content
+              } else {
+                this.invoiceDetail = {
+                  items: [],
+                }
+              }
+            })
+            .catch((error) => {
+              this.invoiceDetail = {
+                items: [],
+              }
+            })
         }
       })
     },
@@ -418,10 +526,12 @@ export default {
       font-weight: 550;
     }
     .el-input {
-      width: 390px;
+      margin-left: 15px;
+      width: 375px;
     }
     .demo-ruleForm {
       .el-input {
+        margin: 0;
         width: 290px;
       }
     }
@@ -458,7 +568,7 @@ export default {
         width: 50%;
         .title {
           height: 100%;
-          width: 5%;
+          width: 20px;
           color: #cf7c2d;
           display: flex;
           align-items: center;
@@ -485,7 +595,7 @@ export default {
         width: 50%;
         .title {
           height: 100%;
-          width: 5%;
+          width: 20px;
           color: #cf7c2d;
           display: flex;
           align-items: center;
@@ -557,7 +667,7 @@ export default {
         width: 50%;
         .title {
           height: 100%;
-          width: 5%;
+          width: 20px;
           color: #cf7c2d;
           display: flex;
           align-items: center;
@@ -584,7 +694,7 @@ export default {
         width: 50%;
         .title {
           height: 100%;
-          width: 5%;
+          width: 20px;
           color: #cf7c2d;
           display: flex;
           align-items: center;
@@ -599,6 +709,33 @@ export default {
       }
     }
   }
+}
+//上传图片
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  margin-left: 15px;
+}
+
+.avatar-uploader .el-upload:hover {
+  border-color: #18c1d6;
+}
+
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 120px;
+  height: 120px;
+  line-height: 120px;
+  text-align: center;
+}
+
+.avatar {
+  width: 120px;
+  height: 120px;
+  display: block;
 }
 .main-footer {
   padding-left: 15px;
