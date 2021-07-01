@@ -16,19 +16,28 @@
             <div class="title border-r">购买方</div>
             <div class="info">
               <div>
-                <span>名称：</span><i>{{ checkDetail.purchaserName }}</i>
+                <span> <em>名</em><em>称：</em> </span>
+                <i>{{ checkDetail.purchaserName }}</i>
               </div>
               <div>
-                <span>纳税人识别号：</span
-                ><i>{{ checkDetail.purchaserTaxpayerNumber }}</i>
+                <span>
+                  <em>纳</em><em>税</em><em>人</em><em>识</em><em>别</em
+                  ><em>号：</em>
+                </span>
+                <i>{{ checkDetail.purchaserTaxpayerNumber }}</i>
               </div>
               <div>
-                <span>开户行及账号：</span
-                ><i>{{ checkDetail.purchaserBank }}</i>
+                <span>
+                  <em>开</em><em>户</em><em>行</em><em>及</em><em>账</em
+                  ><em>号：</em>
+                </span>
+                <i>{{ checkDetail.purchaserBank }}</i>
               </div>
               <div>
-                <span>地址、电话：</span
-                ><i>{{ checkDetail.purchaserAddress }}</i>
+                <span>
+                  <em>地</em><em>址</em><em>、</em><em>电</em><em>话：</em>
+                </span>
+                <i>{{ checkDetail.purchaserAddress }}</i>
               </div>
             </div>
           </div>
@@ -105,17 +114,29 @@
             <div class="title border-r">销售方</div>
             <div class="info">
               <div>
-                <span>企业名称：</span><i>{{ checkDetail.salesName }}</i>
+                <span> <em>企</em><em>业</em><em>名</em><em>称：</em> </span>
+                <i>{{ checkDetail.salesName }}</i>
               </div>
               <div>
-                <span>纳税人识别号：</span
-                ><i>{{ checkDetail.salesTaxpayerNumber }}</i>
+                <span>
+                  <em>纳</em><em>税</em><em>人</em><em>识</em><em>别</em
+                  ><em>号：</em>
+                </span>
+                <i>{{ checkDetail.salesTaxpayerNumber }}</i>
               </div>
               <div>
-                <span>开户行及账号：</span><i>{{ checkDetail.salesBank }}</i>
+                <span>
+                  <em>开</em><em>户</em><em>行</em><em>及</em><em>账</em
+                  ><em>号：</em>
+                </span>
+                <i>{{ checkDetail.salesBank }}</i>
               </div>
               <div>
-                <span>地址、电话：</span><i>{{ checkDetail.salesAddress }}</i>
+                <span>
+                  <em>地</em> <em>址</em> <em>、</em> <em>电</em>
+                  <em>话：</em>
+                </span>
+                <i>{{ checkDetail.salesAddress }}</i>
               </div>
             </div>
           </div>
@@ -251,11 +272,17 @@ export default {
       .info {
         line-height: 25px;
         div {
+          display: flex;
           span {
             width: 90px;
             text-align: right;
             padding-left: 5px;
             color: #cf7c2d;
+            display: flex;
+            justify-content: space-between;
+            em {
+              font-style: normal;
+            }
           }
           i {
             font-style: normal;
@@ -276,19 +303,19 @@ export default {
         text-align: center;
       }
       .info {
-        line-height: 25px;
-        div {
-          span {
-            // width: 90px;
-            // text-align: right;
-            padding-left: 5px;
-            color: #cf7c2d;
-          }
-          i {
-            font-style: normal;
-            color: #666;
-          }
-        }
+        // line-height: 25px;
+        // div {
+        //   span {
+        //     // width: 90px;
+        //     // text-align: right;
+        //     padding-left: 5px;
+        //     color: #cf7c2d;
+        //   }
+        //   i {
+        //     font-style: normal;
+        //     color: #666;
+        //   }
+        // }
       }
     }
   }
@@ -350,11 +377,17 @@ export default {
       .info {
         line-height: 25px;
         div {
+          display: flex;
           span {
             width: 90px;
             text-align: right;
             padding-left: 5px;
             color: #cf7c2d;
+            display: flex;
+            justify-content: space-between;
+            em {
+              font-style: normal;
+            }
           }
           i {
             font-style: normal;

@@ -99,7 +99,9 @@
               </el-form>
             </div>
             <div class="invoice-check_right">
-              <div class="invoice-check_right_title">{{ invoiceDetail.typeName || '增值税电子发票' }}</div>
+              <div class="invoice-check_right_title">
+                {{ invoiceDetail.typeName || '增值税电子发票' }}
+              </div>
               <!-- 头部 -->
               <div class="invoice-check-table_thead border-r border-l border-t">
                 <!-- 购买方 -->
@@ -107,20 +109,29 @@
                   <div class="title border-r">购买方</div>
                   <div class="info">
                     <div>
-                      <span>名称：</span
-                      ><i>{{ invoiceDetail.purchaserName }}</i>
+                      <span> <em>名</em><em>称：</em> </span>
+                      <i>{{ invoiceDetail.purchaserName }}</i>
                     </div>
                     <div>
-                      <span>纳税人识别号：</span
-                      ><i>{{ invoiceDetail.purchaserTaxpayerNumber }}</i>
+                      <span>
+                        <em>纳</em><em>税</em><em>人</em><em>识</em><em>别</em
+                        ><em>号：</em>
+                      </span>
+                      <i>{{ invoiceDetail.purchaserTaxpayerNumber }}</i>
                     </div>
                     <div>
-                      <span>开户行及账号：</span
-                      ><i>{{ invoiceDetail.purchaserBank }}</i>
+                      <span>
+                        <em>开</em><em>户</em><em>行</em><em>及</em><em>账</em
+                        ><em>号：</em>
+                      </span>
+                      <i>{{ invoiceDetail.purchaserBank }}</i>
                     </div>
                     <div>
-                      <span>地址、电话：</span
-                      ><i>{{ invoiceDetail.purchaserAddress }}</i>
+                      <span>
+                        <em>地</em><em>址</em><em>、</em><em>电</em
+                        ><em>话：</em>
+                      </span>
+                      <i>{{ invoiceDetail.purchaserAddress }}</i>
                     </div>
                   </div>
                 </div>
@@ -207,20 +218,31 @@
                   <div class="title border-r">销售方</div>
                   <div class="info">
                     <div>
-                      <span>企业名称：</span
-                      ><i>{{ invoiceDetail.salesName }}</i>
+                      <span>
+                        <em>企</em><em>业</em><em>名</em><em>称：</em>
+                      </span>
+                      <i>{{ invoiceDetail.salesName }}</i>
                     </div>
                     <div>
-                      <span>纳税人识别号：</span
-                      ><i>{{ invoiceDetail.salesTaxpayerNumber }}</i>
+                      <span>
+                        <em>纳</em><em>税</em><em>人</em><em>识</em><em>别</em
+                        ><em>号：</em>
+                      </span>
+                      <i>{{ invoiceDetail.salesTaxpayerNumber }}</i>
                     </div>
                     <div>
-                      <span>开户行及账号：</span
-                      ><i>{{ invoiceDetail.salesBank }}</i>
+                      <span>
+                        <em>开</em><em>户</em><em>行</em><em>及</em><em>账</em
+                        ><em>号：</em>
+                      </span>
+                      <i>{{ invoiceDetail.salesBank }}</i>
                     </div>
                     <div>
-                      <span>地址、电话：</span
-                      ><i>{{ invoiceDetail.salesAddress }}</i>
+                      <span>
+                        <em>地</em> <em>址</em> <em>、</em> <em>电</em>
+                        <em>话：</em>
+                      </span>
+                      <i>{{ invoiceDetail.salesAddress }}</i>
                     </div>
                   </div>
                 </div>
@@ -577,11 +599,17 @@ export default {
         .info {
           line-height: 25px;
           div {
+            display: flex;
             span {
               width: 90px;
               text-align: right;
               padding-left: 5px;
               color: #cf7c2d;
+              display: flex;
+              justify-content: space-between;
+              em {
+                font-style: normal;
+              }
             }
             i {
               font-style: normal;
@@ -602,19 +630,19 @@ export default {
           text-align: center;
         }
         .info {
-          line-height: 25px;
-          div {
-            span {
-              // width: 90px;
-              // text-align: right;
-              padding-left: 5px;
-              color: #cf7c2d;
-            }
-            i {
-              font-style: normal;
-              color: #666;
-            }
-          }
+          // line-height: 25px;
+          // div {
+          //   span {
+          //     // width: 90px;
+          //     // text-align: right;
+          //     padding-left: 5px;
+          //     color: #cf7c2d;
+          //   }
+          //   i {
+          //     font-style: normal;
+          //     color: #666;
+          //   }
+          // }
         }
       }
     }
@@ -676,11 +704,17 @@ export default {
         .info {
           line-height: 25px;
           div {
+            display: flex;
             span {
               width: 90px;
               text-align: right;
               padding-left: 5px;
               color: #cf7c2d;
+              display: flex;
+              justify-content: space-between;
+              em {
+                font-style: normal;
+              }
             }
             i {
               font-style: normal;
