@@ -7,6 +7,7 @@
         :item="item"
         v-show="item.show"
         :allShow="allShow"
+        :ifShow="ifShow"
         @event="event"
         @open="open"
         @search="search"
@@ -30,6 +31,7 @@ export default {
     return {
       innerWidth: null,
       allShow: false,
+      ifShow: false,
       buttons: {
         type: 'buttons',
       },
@@ -138,6 +140,13 @@ export default {
         }
       })
       this.items = items
+      if (!this.allShow) {
+        if (this.items.findIndex((target) => target.show === false) == -1) {
+          this.ifShow = false
+        } else {
+          this.ifShow = true
+        }
+      }
     },
   },
 }

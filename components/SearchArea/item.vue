@@ -9,8 +9,8 @@
     v-if="item.type !== 'buttons'"
     class="search-item"
   >
-    <el-form size="small">
-      <el-form-item :label="item.label" label-width="100px">
+    <el-form>
+      <el-form-item :label="item.label" label-width="100px" size="small">
         <el-input
           v-if="item.type == 'input'"
           v-model="item.value"
@@ -36,9 +36,9 @@
           v-model="item.value"
           :type="item.pickerType"
           :placeholder="item.placeholder || '请选择' + item.label"
-          :value-format="item.format"
           @on-change="timeFormat"
           :editable="false"
+          :value-format="item.format"
         ></el-date-picker>
       </el-form-item>
     </el-form>
@@ -53,11 +53,11 @@
     :xs="24"
     class="buttons"
   >
-    <el-button @click="search" type="primary" class="ea-info-btn" size="small"
+    <el-button @click="search" type="primary" size="small" class="ea-info-btn"
       >查询</el-button
     >
     <el-button @click="reset" type="warning" size="small">重置</el-button>
-    <el-button @click="open" size="small"
+    <el-button @click="open" size="small" v-if="ifShow"
       >{{ allShow ? '收起' : '展开' }}
       <i class="el-icon-arrow-down" v-if="!allShow" />
       <i class="el-icon-arrow-up" v-else />
@@ -82,7 +82,7 @@ export default {
       deep: true,
     },
   },
-  props: ['item', 'allShow'],
+  props: ['item', 'allShow','ifShow'],
   created() {
     if (this.item.items) {
       this.items = this.item.items
