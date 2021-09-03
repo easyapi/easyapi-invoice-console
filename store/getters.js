@@ -9,4 +9,5 @@ const getters = {
   token: state => state.user.token,
   teamList: state => state.team.teamList
 }
+
 export default getters

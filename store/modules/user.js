@@ -3,21 +3,25 @@ import { getUser } from '@/api/account'
 
 const user = {
   state: {
+    accountInfo: '',
     userId: '',
     username: '',
     nickname: '',
     photo: '',
     mobile: '',
     email: '',
-    team: '',
-    teamName: '',
-    teamImg: '',
-    userTeam: '',
-    token: Cookies.get('authenticationToken')
+    menusIds: '',
+    token: Cookies.get('fpAuthToken'),
+    defaultShop: '',
+    type: '',
+    platform: ''
   },
 
   mutations: {
-    SET_USERID: (state, userId) => {
+    SET_ACCOUNT_INFO: (state, accountInfo) => {
+      state.accountInfo = accountInfo
+    },
+    SET_USER_ID: (state, userId) => {
       state.userId = userId
     },
     SET_USERNAME: (state, username) => {
@@ -35,50 +39,59 @@ const user = {
     SET_EMAIL: (state, email) => {
       state.email = email
     },
-    SET_TEAM: (state, team) => {
-      state.team = team
-    },
-    SET_TEAM_NAME: (state, teamName) => {
-      state.teamName = teamName
-    },
-    SET_TEAM_IMG: (state, teamImg) => {
-      state.teamImg = teamImg
-    },
-    SET_USER_TEAM: (state, userTeam) => {
-      state.userTeam = userTeam
+    SET_MENU: (state, menusIds) => {
+      state.menusIds = menusIds
     },
     SET_TOKEN: (state, token) => {
       state.token = token
     },
+    SET_DEFAULT_SHOP: (state, shop) => {
+      state.defaultShop = shop
+    },
+    SET_TYPE: (state, type) => {
+      state.type = type
+    },
+    SET_PLATFORM: (state, platform) => {
+      state.platform = platform
+    }
   },
 
   actions: {
-    // 用户名登录
-    LoginByUsername ({ commit }, userInfo) {
+    /**
+     * 获取用户信息
+     */
+    getUserInfo({ commit, state }, context) {
+      getUser(context).then(res => {
+        if (res.data.code === 1) {
+          let userInfoData = res.data.content
+          commit('SET_ACCOUNT_INFO', userInfoData)
+          commit('SET_USER_ID', userInfoData.id)
+          commit('SET_USERNAME', userInfoData.username)
+          commit('SET_NICKNAME', userInfoData.nickname)
+          commit('SET_PHOTO', userInfoData.photo)
+          commit('SET_MOBILE', userInfoData.mobile)
+          commit('SET_EMAIL', userInfoData.email)
+          //menuIds
+          let menu = ''
+          for (let i in userInfoData.menus) {
+            menu += userInfoData.menus[i].menuId + ','
+          }
+          commit('SET_MENU', menu)
 
-    },
-    // 获取用户信息
-    GetUserInfo ({ commit }) {
-      getUser().then(res => {
-        let userInfoData = res.data
-        commit('SET_USERID', userInfoData.id)
-        commit('SET_USERNAME', userInfoData.username)
-        commit('SET_NICKNAME', userInfoData.nickname)
-        commit('SET_PHOTO', userInfoData.photo)
-        commit('SET_MOBILE', userInfoData.mobile)
-        commit('SET_EMAIL', userInfoData.email)
-        commit('SET_TEAM', userInfoData.team)
-        commit('SET_TEAM_NAME', userInfoData.team.name)
-        commit('SET_TEAM_IMG', userInfoData.team.img || '')
-        commit('SET_USER_TEAM', userInfoData.userTeam)
-      }).catch(error => {
-        // Cookies.remove('authenticationToken')
+          commit('SET_DEFAULT_SHOP', userInfoData.shop)
+          commit('SET_TYPE', userInfoData.type)
+          commit('SET_PLATFORM', userInfoData.platform)
+          Cookies.set('userInfo', JSON.stringify(res.data), { expires: 30 })
+          localStorage.setItem('userInfo', JSON.stringify(res.data.content))
+        }
       })
     },
-    // 登出
-    Logout () {
-      Cookies.remove('authenticationToken')
-    },
+    /**
+     * 登出
+     */
+    logout({ commit, state }) {
+      Cookies.remove('fpAuthToken', 'userInfo')
+    }
   }
 }
 

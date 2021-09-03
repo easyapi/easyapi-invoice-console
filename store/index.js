@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 import user from './modules/user'
 import getters from './getters'
 
-Vue.use(Vuex);
+Vue.use(Vuex)
 
 const store = () => new Vuex.Store({
   modules: {
@@ -11,14 +11,22 @@ const store = () => new Vuex.Store({
   },
   state: {
     serviceName: '',
+    is_browser_first: true,
+    isKeepActive: true
   },
   mutations: {
     SET_SERVICE_NAME: (state, name) => {
-      state.serviceName = name;
+      state.serviceName = name
     },
+    saveBrowserFirst(state, type) {
+      state.is_browser_first = type
+    },
+    SET_KEEP_ACTIVE(state, bool) {
+      state.isKeepActive = bool
+    }
   },
   actions: {},
   getters
-});
+})
 
 export default store

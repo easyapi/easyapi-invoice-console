@@ -1,7 +1,7 @@
-# EasyAPI应用检查更新[https://update.easyapi.com](https://update.easyapi.com)
+# EasyAPI发票服务[https://fapiao.easyapi.com](https://fapiao.easyapi.com)
 
 ## 项目介绍
-EasyAPI应用检查更新
+EasyAPI发票服务控制台
 
 ## 相关技术和第三方库
 * [Nuxt](https://zh.nuxtjs.org)
