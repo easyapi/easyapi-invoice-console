@@ -17,7 +17,7 @@ export const checkInvoiceCode = (params, context) => {
  */
 export const checkInvoiceUrl = (params, context) => {
   return context.$axios.get(`${process.env.baseUrl}/check-invoice/url`, {
-    params: { ...params },
+    params: { ...params }
   })
 }
 
@@ -28,6 +28,6 @@ export const checkInvoiceUrl = (params, context) => {
  */
 export const checkInvoiceQrCode = (params, context) => {
   return context.$axios.get(`${process.env.baseUrl}/check-invoice/qr-code`, {
-    params: { ...params },
+    params: { ...params }
   })
 }

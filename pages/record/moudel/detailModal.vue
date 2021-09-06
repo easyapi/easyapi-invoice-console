@@ -1,20 +1,20 @@
 <template>
   <div>
     <el-dialog
-      custom-class="up-dialog"
-      :before-close="handleClose"
-      title="详情"
-      :visible.sync="visible"
-      width="55%"
+      custom-class='up-dialog'
+      :before-close='handleClose'
+      title='详情'
+      :visible.sync='visible'
+      width='55%'
     >
-      <div class="invoice-check_right">
-        <div class="invoice-check_right_title">{{ checkDetail.typeName }}</div>
+      <div class='invoice-check_right'>
+        <div class='invoice-check_right_title'>{{ checkDetail.typeName }}</div>
         <!-- 头部 -->
-        <div class="invoice-check-table_thead border-r border-l border-t">
+        <div class='invoice-check-table_thead border-r border-l border-t'>
           <!-- 购买方 -->
-          <div class="invoice-check-table_thead_purchaser">
-            <div class="title border-r">购买方</div>
-            <div class="info">
+          <div class='invoice-check-table_thead_purchaser'>
+            <div class='title border-r'>购买方</div>
+            <div class='info'>
               <div>
                 <span> <em>名</em><em>称：</em> </span>
                 <i>{{ checkDetail.purchaserName }}</i>
@@ -22,14 +22,14 @@
               <div>
                 <span>
                   <em>纳</em><em>税</em><em>人</em><em>识</em><em>别</em
-                  ><em>号：</em>
+                ><em>号：</em>
                 </span>
                 <i>{{ checkDetail.purchaserTaxpayerNumber }}</i>
               </div>
               <div>
                 <span>
                   <em>开</em><em>户</em><em>行</em><em>及</em><em>账</em
-                  ><em>号：</em>
+                ><em>号：</em>
                 </span>
                 <i>{{ checkDetail.purchaserBank }}</i>
               </div>
@@ -42,8 +42,8 @@
             </div>
           </div>
           <!-- 密码区 -->
-          <div class="invoice-check_table_receive">
-            <div class="title border-r border-l">密码区</div>
+          <div class='invoice-check_table_receive'>
+            <div class='title border-r border-l'>密码区</div>
             <!-- <div class="info">
               <div><span>联系电话：</span><i>1763166164</i></div>
               <div><span>电子邮箱：</span><i>1537299563@qq.com</i></div>
@@ -51,68 +51,68 @@
           </div>
         </div>
         <!-- 明细 -->
-        <div class="invoice-check-table_tbody">
+        <div class='invoice-check-table_tbody'>
           <el-table
-            :data="checkDetail.items"
+            :data='checkDetail.items'
             border
-            style="width: 100%; font-size: 12px"
+            style='width: 100%; font-size: 12px'
             show-summary
-            :summary-method="getSummaries"
+            :summary-method='getSummaries'
           >
             <el-table-column
-              prop="name"
-              label="货物或应税劳务、服务名称"
-              align="center"
+              prop='name'
+              label='货物或应税劳务、服务名称'
+              align='center'
             >
             </el-table-column>
-            <el-table-column prop="model" label="规格型号" align="center">
+            <el-table-column prop='model' label='规格型号' align='center'>
             </el-table-column>
-            <el-table-column prop="unit" label="单位" align="center">
+            <el-table-column prop='unit' label='单位' align='center'>
             </el-table-column>
-            <el-table-column prop="number" label="数量" align="center">
+            <el-table-column prop='number' label='数量' align='center'>
             </el-table-column>
-            <el-table-column prop="price" label="单价（含税）" align="center">
+            <el-table-column prop='price' label='单价（含税）' align='center'>
             </el-table-column>
-            <el-table-column prop="sum" label="金额（含税）" align="center">
-              <template slot-scope="{ row }">
+            <el-table-column prop='sum' label='金额（含税）' align='center'>
+              <template slot-scope='{ row }'>
                 <div>{{ row.sum.toFixed(2) }}</div>
               </template>
             </el-table-column>
-            <el-table-column prop="taxRate" label="税率" align="center">
-              <template slot-scope="{ row }">
+            <el-table-column prop='taxRate' label='税率' align='center'>
+              <template slot-scope='{ row }'>
                 <div>{{ row.taxRate * 100 }}%</div>
               </template>
             </el-table-column>
-            <el-table-column prop="tax" label="税额" align="center">
-              <template slot-scope="{ row }">
+            <el-table-column prop='tax' label='税额' align='center'>
+              <template slot-scope='{ row }'>
                 <div>{{ row.tax.toFixed(2) }}</div>
               </template>
             </el-table-column>
           </el-table>
         </div>
         <!-- 合计 -->
-        <div class="invoice-check-table_summary border-r border-l border-b">
+        <div class='invoice-check-table_summary border-r border-l border-b'>
           <el-row>
-            <el-col :span="4">
-              <div class="text">加税合计（大写）</div>
+            <el-col :span='4'>
+              <div class='text'>加税合计（大写）</div>
             </el-col>
-            <el-col :span="8">
-              <div class="text">{{ DX(allAmount) }}</div>
+            <el-col :span='8'>
+              <div class='text'>{{ DX(allAmount) }}</div>
             </el-col>
-            <el-col :span="4">
-              <div class="text">（小写）</div>
+            <el-col :span='4'>
+              <div class='text'>（小写）</div>
             </el-col>
-            <el-col :span="8">
-              <div class="text">￥{{ allAmount }}</div>
+            <el-col :span='8'>
+              <div class='text'>￥{{ allAmount }}</div>
             </el-col>
           </el-row>
         </div>
 
-        <div class="invoice-check-table_tfoot border-r border-l border-b">
+        <div class='invoice-check-table_tfoot border-r border-l border-b'>
           <!-- 销售方 -->
-          <div class="invoice-check-table_thead_seller">
-            <div class="title border-r">销售方</div>
-            <div class="info">
+          <div class='invoice-check-table_thead_seller'>
+            <div class='title border-r'>销售方</div>
+            <div class='info'>
               <div>
                 <span> <em>企</em><em>业</em><em>名</em><em>称：</em> </span>
                 <i>{{ checkDetail.salesName }}</i>
@@ -120,14 +120,14 @@
               <div>
                 <span>
                   <em>纳</em><em>税</em><em>人</em><em>识</em><em>别</em
-                  ><em>号：</em>
+                ><em>号：</em>
                 </span>
                 <i>{{ checkDetail.salesTaxpayerNumber }}</i>
               </div>
               <div>
                 <span>
                   <em>开</em><em>户</em><em>行</em><em>及</em><em>账</em
-                  ><em>号：</em>
+                ><em>号：</em>
                 </span>
                 <i>{{ checkDetail.salesBank }}</i>
               </div>
@@ -141,15 +141,15 @@
             </div>
           </div>
           <!-- 备注 -->
-          <div class="invoice-check_table_remark">
-            <div class="title border-r border-l">备注</div>
-            <div class="remark">{{ checkDetail.remark }}</div>
+          <div class='invoice-check_table_remark'>
+            <div class='title border-r border-l'>备注</div>
+            <div class='remark'>{{ checkDetail.remark }}</div>
           </div>
         </div>
       </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button type="primary" size="small" @click="handleSubmit"
-          >确 定</el-button
+      <span slot='footer' class='dialog-footer'>
+        <el-button type='primary' size='small' @click='handleSubmit'
+        >确 定</el-button
         >
       </span>
     </el-dialog>
@@ -162,7 +162,8 @@ export default {
     return {}
   },
   watch: {},
-  mounted() {},
+  mounted() {
+  },
   computed: {
     allAmount() {
       let num = 0
@@ -172,7 +173,7 @@ export default {
         }
       }
       return num.toFixed(2)
-    },
+    }
   },
   methods: {
     //表格合计
@@ -226,26 +227,31 @@ export default {
     //关闭
     handleClose() {
       this.$emit('update:visible', false)
-    },
-  },
+    }
+  }
 }
 </script>
-<style lang="scss">
+<style lang='scss'>
 .invoice-check_right {
   width: 100%;
   font-size: 12px;
+
   .border-r {
     border-right: 1px solid #cf7c2d;
   }
+
   .border-l {
     border-left: 1px solid #cf7c2d;
   }
+
   .border-t {
     border-top: 1px solid #cf7c2d;
   }
+
   .border-b {
     border-bottom: 1px solid #cf7c2d;
   }
+
   .invoice-check_right_title {
     font-size: 20px;
     color: #cf7c2d;
@@ -253,14 +259,17 @@ export default {
     margin-bottom: 20px;
     font-weight: bold;
   }
+
   //头部
   .invoice-check-table_thead {
     width: 100%;
     height: 100px;
     display: flex;
+
     .invoice-check-table_thead_purchaser {
       display: flex;
       width: 50%;
+
       .title {
         height: 100%;
         width: 20px;
@@ -269,10 +278,13 @@ export default {
         align-items: center;
         text-align: center;
       }
+
       .info {
         line-height: 25px;
+
         div {
           display: flex;
+
           span {
             width: 90px;
             text-align: right;
@@ -280,10 +292,12 @@ export default {
             color: #cf7c2d;
             display: flex;
             justify-content: space-between;
+
             em {
               font-style: normal;
             }
           }
+
           i {
             font-style: normal;
             color: #666;
@@ -291,9 +305,11 @@ export default {
         }
       }
     }
+
     .invoice-check_table_receive {
       display: flex;
       width: 50%;
+
       .title {
         height: 100%;
         width: 20px;
@@ -302,6 +318,7 @@ export default {
         align-items: center;
         text-align: center;
       }
+
       .info {
         // line-height: 25px;
         // div {
@@ -319,53 +336,65 @@ export default {
       }
     }
   }
+
   .invoice-check-table_tbody {
     width: 100%;
+
     .el-table td,
     .el-table th.is-leaf,
     .el-table--border,
     .el-table--group {
       border-color: #cf7c2d;
     }
+
     .el-table--border::after,
     .el-table--group::after,
     .el-table::before {
       background-color: #cf7c2d;
     }
+
     .el-table thead {
       color: #cf7c2d;
     }
+
     .el-table__header-wrapper tbody td,
     .el-table__footer-wrapper tbody td {
       background: #fff;
     }
+
     th {
       padding: 0 !important;
       height: 48px;
       line-height: 48px;
     }
+
     td {
       padding: 0 !important;
       height: 48px;
       line-height: 48px;
     }
   }
+
   //合计
   .invoice-check-table_summary {
     height: 32px;
     line-height: 32px;
+
     .text {
       text-align: center;
       color: #cf7c2d;
     }
   }
+
   .invoice-check-table_tfoot {
     width: 100%;
     height: 100px;
     display: flex;
+
     .invoice-check-table_thead_seller {
       display: flex;
       width: 50%;
+
       .title {
         height: 100%;
         width: 20px;
@@ -374,10 +403,13 @@ export default {
         align-items: center;
         text-align: center;
       }
+
       .info {
         line-height: 25px;
+
         div {
           display: flex;
+
           span {
             width: 90px;
             text-align: right;
@@ -385,10 +417,12 @@ export default {
             color: #cf7c2d;
             display: flex;
             justify-content: space-between;
+
             em {
               font-style: normal;
             }
           }
+
           i {
             font-style: normal;
             color: #666;
@@ -396,9 +430,11 @@ export default {
         }
       }
     }
+
     .invoice-check_table_remark {
       display: flex;
       width: 50%;
+
       .title {
         height: 100%;
         width: 20px;
@@ -407,6 +443,7 @@ export default {
         align-items: center;
         text-align: center;
       }
+
       .remark {
         width: 100%;
         padding: 0 5px;

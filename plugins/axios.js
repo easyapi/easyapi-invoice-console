@@ -16,6 +16,8 @@ export default function({ $axios, redirect }) {
         redirect('/login')
       } else if (error.response.data.code === -8) {
         window.location.href = 'https://team.easyapi.com/new?from=https://fapiao.easyapi.com'
+      } else if (error.response.data.code === -6) {
+        window.location.href = 'https://market.easyapi.com/service/22'
       } else {
         Message.error(error.response.data.message)
       }

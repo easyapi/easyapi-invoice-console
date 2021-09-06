@@ -1,7 +1,7 @@
-# EasyAPI发票服务[https://fapiao.easyapi.com](https://fapiao.easyapi.com)
+# EasyAPI发票查验[https://invoice.easyapi.com](https://invoice.easyapi.com)
 
 ## 项目介绍
-EasyAPI发票服务控制台
+EasyAPI发票查验控制台
 
 ## 相关技术和第三方库
 * [Nuxt](https://zh.nuxtjs.org)

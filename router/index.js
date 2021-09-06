@@ -6,9 +6,9 @@ const routers = [
         title: '发票查验',
         path: '/check',
         icon: 'check',
-        children: [],
-      },
-    ],
+        children: []
+      }
+    ]
   },
   {
     title: '查验记录',
@@ -17,9 +17,9 @@ const routers = [
         title: '发票明细',
         path: '/record',
         icon: 'record',
-        children: [],
-      },
-    ],
-  },
+        children: []
+      }
+    ]
+  }
 ]
 export default routers

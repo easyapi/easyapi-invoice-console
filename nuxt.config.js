@@ -26,7 +26,6 @@ module.exports = {
   plugins: [
     '@/plugins/element-ui',
     '@/plugins/axios',
-    '@/plugins/router',
     { src: '@/plugins/common.js', ssr: false },
     { src: '@/plugins/icons', ssr: false },
   ],

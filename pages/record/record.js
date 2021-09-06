@@ -2,7 +2,7 @@ import './record.scss'
 import Header from '../../components/Header/index.vue'
 import Aside from '../../components/Aside/index.vue'
 import Pagination from '../../components/Pagination/index'
-import { getCheckRecords } from '../../api/record'
+import { getCheckRecordList } from '../../api/record'
 import DetailModal from './moudel/detailModal.vue'
 import SearchArea from '../../components/SearchArea/index.vue'
 
@@ -13,7 +13,7 @@ export default {
     Aside,
     Pagination,
     DetailModal,
-    SearchArea,
+    SearchArea
   },
   data() {
     return {
@@ -28,56 +28,51 @@ export default {
           type: 'datePicker',
           key: 'makeDate',
           pickerType: 'date',
-          format: 'yyyy-MM-dd',
-        },
+          format: 'yyyy-MM-dd'
+        }
       ],
       formInline: {
         code: null,
         number: null,
         makeDate: null,
         purchaserName: null,
-        salesName: null,
+        salesName: null
       },
       showHeader: '',
       pagination: {
         page: 1,
         size: 12,
-        total: 0,
+        total: 0
       },
       loadingData: false,
       tableText: '',
       detailModal: false,
-      checkDetail: {},
+      checkDetail: {}
     }
   },
   head() {
     return {
       title: '查验记录 - EasyAPI查验记录',
       meta: [
-        {
-          hid: 'description',
-          name: 'description',
-          content: '发票管理查验记录',
-        },
-        { hid: 'keyword', name: 'keyword', content: '发票管理查验记录' },
-      ],
+        { hid: 'description', name: 'description', content: '发票管理查验记录' },
+        { hid: 'keyword', name: 'keyword', content: '发票管理查验记录' }
+      ]
     }
   },
   methods: {
     /**
      * 获取查验记录
      */
-    getCheckRecords() {
+    getCheckRecordList() {
       this.loadingData = true
       let page = this.pagination.page - 1
       let params = {
         page: page,
         size: this.pagination.size,
-        appKey: '53Z9oTH5KpIy2SC2',
-        appSecret: 'tfmjloheqcricbic',
-        ...this.formInline,
+        sort: 'addTime,desc',
+        ...this.formInline
       }
-      getCheckRecords(params, this).then((res) => {
+      getCheckRecordList(params, this).then((res) => {
         if (res.data.code === 0) {
           this.loadingData = false
           this.tableText = '暂无数据'
@@ -97,11 +92,11 @@ export default {
     //分页
     fatherSize(data) {
       this.pagination.size = data
-      this.getCheckRecords()
+      this.getCheckRecordList()
     },
     fatherCurrent(data) {
       this.pagination.page = data
-      this.getCheckRecords()
+      this.getCheckRecordList()
     },
     search(item) {
       this.pagination.page = 1
@@ -111,7 +106,7 @@ export default {
       this.formInline.makeDate = makeDate
       this.formInline.purchaserName = purchaserName
       this.formInline.salesName = salesName
-      this.getCheckRecords()
+      this.getCheckRecordList()
     },
     event(item) {
       let { code, number, makeDate, purchaserName, salesName } = item
@@ -121,10 +116,11 @@ export default {
       this.formInline.purchaserName = purchaserName
       this.formInline.salesName = salesName
     },
-    reset() {},
+    reset() {
+    }
   },
   mounted() {
-    this.getCheckRecords()
+    this.getCheckRecordList()
     this.showHeader = this.theme.showHeader
-  },
+  }
 }

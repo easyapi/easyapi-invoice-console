@@ -4,32 +4,33 @@ import Aside from '../../components/Aside/index.vue'
 import {
   checkInvoiceCode,
   checkInvoiceUrl,
-  checkInvoiceQrCode,
+  checkInvoiceQrCode
 } from '../../api/check'
-import { getqnkey, getqnToken } from '../../api/qiniu'
+import { getQiniuKey, getQiniuToken } from '../../api/qiniu'
+
 export default {
   name: '',
   components: {
     Header,
-    Aside,
+    Aside
   },
   data() {
     var validateCode = (rule, value, callback) => {
-      if (value.length != 10 && value.length != 12) {
+      if (value.length !== 10 && value.length !== 12) {
         callback(new Error('请输入10位或12位发票代码'))
       } else {
         callback()
       }
     }
     var validateNumber = (rule, value, callback) => {
-      if (value.length != 8) {
+      if (value.length !== 8) {
         callback(new Error('请输入8位发票号码'))
       } else {
         callback()
       }
     }
     var validateCheckCode = (rule, value, callback) => {
-      if (value.length != 6) {
+      if (value.length !== 6) {
         callback(new Error('请输入效验码后六位'))
       } else {
         callback()
@@ -42,7 +43,7 @@ export default {
       imgUrl: '',
       qrCode: '',
       invoiceDetail: {
-        items: [],
+        items: []
       },
       invoiceType: 1,
       ruleForm: {
@@ -50,39 +51,35 @@ export default {
         number: '',
         makeDate: '',
         checkCode: '',
-        price: '',
+        price: ''
       },
       rules: {
         code: [
           { required: true, message: '请输入发票代码', trigger: 'blur' },
-          { validator: validateCode, trigger: 'blur' },
+          { validator: validateCode, trigger: 'blur' }
         ],
         number: [
           { required: true, message: '请输入发票号码', trigger: 'blur' },
-          { validator: validateNumber, trigger: 'blur' },
+          { validator: validateNumber, trigger: 'blur' }
         ],
         makeDate: [
-          { required: true, message: '请选择发票日期', trigger: 'blur' },
+          { required: true, message: '请选择发票日期', trigger: 'blur' }
         ],
         checkCode: [
           { required: true, message: '请输入效验码', trigger: 'blur' },
-          { validator: validateCheckCode, trigger: 'blur' },
+          { validator: validateCheckCode, trigger: 'blur' }
         ],
-        price: [{ required: true, message: '请输入金额', trigger: 'blur' }],
-      },
+        price: [{ required: true, message: '请输入金额', trigger: 'blur' }]
+      }
     }
   },
   head() {
     return {
       title: '发票查验 - EasyAPI发票查验',
       meta: [
-        {
-          hid: 'description',
-          name: 'description',
-          content: '发票管理发票查验',
-        },
-        { hid: 'keyword', name: 'keyword', content: '发票管理发票查验' },
-      ],
+        { hid: 'description', name: 'description', content: '发票管理发票查验' },
+        { hid: 'keyword', name: 'keyword', content: '发票管理发票查验' }
+      ]
     }
   },
   mounted() {
@@ -95,18 +92,18 @@ export default {
         num += Number(item.sum) + Number(item.tax)
       }
       return num.toFixed(2)
-    },
+    }
   },
   methods: {
-    getqnkey() {
-      getqnkey(this).then((res) => {
+    getQiniuKey() {
+      getQiniuKey(this).then((res) => {
         if (res.data.code === 1) {
           this.qnKey = res.data.content.key
         }
       })
     },
-    getqnToken() {
-      getqnToken(this).then((res) => {
+    getQiniuToken() {
+      getQiniuToken(this).then((res) => {
         if (res.data.code === 1) {
           this.qnToken = res.data.content.upToken
         }
@@ -114,8 +111,8 @@ export default {
     },
     //获取七牛key和token
     getTokenAandKey() {
-      this.getqnkey()
-      this.getqnToken()
+      this.getQiniuKey()
+      this.getQiniuToken()
     },
     handleAvatarSuccess(res) {
       this.$message.success('上传成功!')
@@ -180,7 +177,7 @@ export default {
       let params = {
         appKey: '53Z9oTH5KpIy2SC2',
         appSecret: 'tfmjloheqcricbic',
-        url: this.imgUrl,
+        url: this.imgUrl
       }
       checkInvoiceUrl(params, this)
         .then((res) => {
@@ -188,13 +185,13 @@ export default {
             this.invoiceDetail = res.data.content
           } else {
             this.invoiceDetail = {
-              items: [],
+              items: []
             }
           }
         })
         .catch((error) => {
           this.invoiceDetail = {
-            items: [],
+            items: []
           }
         })
     },
@@ -202,7 +199,7 @@ export default {
       let params = {
         appKey: '53Z9oTH5KpIy2SC2',
         appSecret: 'tfmjloheqcricbic',
-        text: '01,04,032002100404,08370904,653.40,20210611,01312583033131800741,2030,',
+        text: '01,04,032002100404,08370904,653.40,20210611,01312583033131800741,2030,'
       }
       checkInvoiceQrCode(params, this)
         .then((res) => {
@@ -210,13 +207,13 @@ export default {
             this.invoiceDetail = res.data.content
           } else {
             this.invoiceDetail = {
-              items: [],
+              items: []
             }
           }
         })
         .catch((error) => {
           this.invoiceDetail = {
-            items: [],
+            items: []
           }
         })
     },
@@ -227,7 +224,7 @@ export default {
           let params = {
             ...this.ruleForm,
             appKey: '53Z9oTH5KpIy2SC2',
-            appSecret: 'tfmjloheqcricbic',
+            appSecret: 'tfmjloheqcricbic'
           }
           // 032002100404 08370904  3200202130 08108805
           checkInvoiceCode(params, this)
@@ -236,17 +233,17 @@ export default {
                 this.invoiceDetail = res.data.content
               } else {
                 this.invoiceDetail = {
-                  items: [],
+                  items: []
                 }
               }
             })
             .catch((error) => {
               this.invoiceDetail = {
-                items: [],
+                items: []
               }
             })
         }
       })
-    },
-  },
+    }
+  }
 }
