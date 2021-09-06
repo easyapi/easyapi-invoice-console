@@ -3,7 +3,7 @@ import { Message } from 'element-ui'
 
 export default function({ $axios, redirect }) {
   $axios.onRequest((config) => {
-    let token = Cookies.get('fpAuthToken')
+    let token = Cookies.get('authenticationToken')
     if (token) {
       config.headers.Authorization = 'Bearer ' + token
     }
@@ -13,9 +13,9 @@ export default function({ $axios, redirect }) {
     if (code === 400) {
       if (error.response.data.code === -9) {
         Message.error(error.response.data.message)
-        redirect('/login')
+        window.location.href = 'https://account.easyapi.com/login?from=https://invoice.easyapi.com'
       } else if (error.response.data.code === -8) {
-        window.location.href = 'https://team.easyapi.com/new?from=https://fapiao.easyapi.com'
+        window.location.href = 'https://team.easyapi.com/new?from=https://invoice.easyapi.com'
       } else if (error.response.data.code === -6) {
         window.location.href = 'https://market.easyapi.com/service/22'
       } else {
